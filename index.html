@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Боковое Меню с Профилем и Категориями</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .menu-container {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px; /* скрытое положение */
+            height: 100%;
+            background-color: #f8f8f8;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            transition: left 0.3s ease;
+        }
+        .menu-container.active {
+            left: 0; /* Показ меню */
+        }
+        .menu-header {
+            padding: 20px;
+            background-color: #fff;
+            text-align: center;
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+        }
+        .menu-content {
+            padding: 15px;
+        }
+        .menu-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .menu-content ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .menu-content ul li a {
+            text-decoration: none;
+            color: #333;
+            display: inline-block;
+            width: 100%;
+        }
+        .submenu {
+            display: none;
+            padding-left: 15px;
+            margin-top: 10px;
+            background-color: #f0f0f0;
+        }
+        .menu-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .modal-content h3 {
+            margin: 10px 0;
+        }
+
+        .modal-content p {
+            margin: 10px 0;
+        }
+
+        .order-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<button class="menu-toggle">Открыть Меню</button>
+
+<div class="menu-container" id="sideMenu">
+    <div class="menu-header">
+        Профиль
+    </div>
+    <div class="menu-content">
+        <ul>
+            <li class="has-submenu" id="profileMenu">
+                Профиль
+                <div class="submenu">
+                    <ul>
+                        <li class="has-submenu">Мой код
+                            <div class="submenu">123456</div>
+                        </li>
+                        <li class="has-submenu">История заказов
+                            <div class="submenu">Нет доступных заказов</div>
+                        </li>
+                        <li class="has-submenu">История начислений
+                            <div class="submenu">Нет начислений</div>
+                        </li>
+                        <li class="has-submenu">Политика конфиденциальности
+                            <div class="submenu">Текущая версия: 1.2.3</div>
+                        </li>
+                        <li class="has-submenu">Кэшбэк 5%
+                            <div class="submenu">Текущий бонус: 1217</div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="has-submenu" id="mainMenu">
+                Меню
+                <div class="submenu">
+                    <ul>
+                        <li class="has-submenu">Салаты
+                            <div class="submenu">
+                                <ul>
+                                    <li onclick="showRandomDish('Цезарь с курицей')">Цезарь с курицей</li>
+                                    <li onclick="showRandomDish('Греческий салат')">Греческий салат</li>
+                                    <li onclick="showRandomDish('Салат из свежих овощей')">Салат из свежих овощей</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="has-submenu">Овощи
+                            <div class="submenu">
+                                <ul>
+                                    <li onclick="showRandomDish('Картофель запечённый')">Картофель запечённый</li>
+                                    <li onclick="showRandomDish('Баклажаны на гриле')">Баклажаны на гриле</li>
+                                    <li onclick="showRandomDish('Морковь тушеная')">Морковь тушеная</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="has-submenu">Фрукты
+                            <div class="submenu">
+                                <ul>
+                                    <li onclick="showRandomDish('Яблоки', 'https://images.gastronom.ru/aTa0i_5-ICCmA76vVfmPi2XEME9pt6XbxDS_Z2pgkQw/pr:article-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2ZkNDg5NTg1LTFjZDEtNDIyZC1hMTNjLWVjYjc1YmQ4ZmFjYy5qcGc.webp')">Яблоки</li>
+                                    <li onclick="showRandomDish('Бананы')">Бананы</li>
+                                    <li onclick="showRandomDish('Виноград')">Виноград</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальное окно для отображения блюда -->
+<div class="modal" id="dishModal">
+    <div class="modal-content">
+        <img id="dishImage" src="" alt="Блюдо">
+        <h3 id="dishName"></h3>
+        <p id="dishPrice"></p>
+        <button class="order-button" onclick="orderDish()">Заказать</button>
+    </div>
+</div>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sideMenu = document.getElementById('sideMenu');
+    const submenuItems = document.querySelectorAll('.has-submenu');
+    const dishModal = document.getElementById('dishModal');
+    const dishName = document.getElementById('dishName');
+    const dishImage = document.getElementById('dishImage');
+    const dishPrice = document.getElementById('dishPrice');
+
+    // Для открытия бокового меню
+    menuToggle.addEventListener('click', () => {
+        sideMenu.classList.toggle('active');
+    });
+
+    submenuItems.forEach(item => {
+        const submenu = item.querySelector('.submenu');
+        item.addEventListener('click', (event) => {
+            event.stopPropagation();
+            if (submenu) {
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    });
+
+    function showRandomDish(dish, imageUrl = '') {
+        const randomImage = imageUrl || 'https://example.com/default-dish.jpg';
+        const randomPrice = (Math.random() * (500 - 100) + 100).toFixed(2); // Генерация случайной цены от 100 до 500
+
+        dishName.textContent = dish;
+        dishImage.src = randomImage;
+        dishPrice.textContent = `Цена: ${randomPrice} рублей`;
+        dishModal.style.display = 'flex';
+    }
+
+    function orderDish() {
+        alert('Вы успешно заказали это блюдо!');
+        dishModal.style.display = 'none';
+    }
+
+    // Закрытие модального окна при клике вне его
+    window.onclick = function(event) {
+        if (event.target == dishModal) {
+            dishModal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
