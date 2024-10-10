@@ -111,6 +111,13 @@
             border-radius: 5px;
             margin-top: 10px;
         }
+
+        /* Стили для нового контента */
+        .info-container {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -194,6 +201,12 @@
     </div>
 </div>
 
+<!-- Новый контент -->
+<div class="info-container">
+    <h1>Тут могла быть ваша реклама</h1>
+    <p>Тут что-то будет.</p>
+</div>
+
 <script>
     const menuToggle = document.querySelector('.menu-toggle');
     const sideMenu = document.getElementById('sideMenu');
@@ -233,10 +246,10 @@
         dishModal.style.display = 'none';
     }
 
-    // Закрытие модального окна при клике вне его
+    // Закрытие модального окна при нажатии вне него
     window.onclick = function(event) {
-        if (event.target == dishModal) {
-            dishModal.style.display = "none";
+        if (event.target === dishModal) {
+            dishModal.style.display = 'none';
         }
     }
 </script>
